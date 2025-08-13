@@ -22,3 +22,7 @@
 ## 1.0.3
 
 * Updated documentation and dart format
+
+## 1.0.4
+
+* Dart format

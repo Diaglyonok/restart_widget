@@ -61,7 +61,8 @@ class RestartNotifier extends ChangeNotifier {
   /// The [onSetup] callback is called during initialization and each time
   /// the app is restarted. It receives the notifier instance and a boolean
   /// indicating whether this is a restart operation.
-  RestartNotifier({required this.onSetup}) : _state = const RestartState(Key('initial'));
+  RestartNotifier({required this.onSetup})
+      : _state = const RestartState(Key('initial'));
 
   /// Callback function called during initialization and restart.
   ///
@@ -106,7 +107,8 @@ class RestartNotifier extends ChangeNotifier {
   /// ```
   void restart([Key? appSessionKey]) {
     onSetup(this, reset: true);
-    _state = RestartState(appSessionKey ?? Key(DateTime.now().millisecondsSinceEpoch.toString()));
+    _state = RestartState(
+        appSessionKey ?? Key(DateTime.now().millisecondsSinceEpoch.toString()));
     notifyListeners();
   }
 }
