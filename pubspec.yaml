@@ -1,0 +1,17 @@
+name: restart_widget
+description: "A Flutter package that provides a simple way to restart your app's widget tree with a new session key. Useful for user logout, theme changes, language switches, and app state resets."
+version: 1.0.1
+homepage: https://github.com/yourusername/restart_widget
+
+environment:
+  sdk: ^3.5.3
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
