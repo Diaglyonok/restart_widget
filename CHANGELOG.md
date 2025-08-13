@@ -18,3 +18,7 @@
 ## 1.0.2
 
 * Updated restart function with optinal param
+
+## 1.0.3
+
+* Updated documentation and dart format
