@@ -19,9 +19,9 @@ class RestartNotifier extends ChangeNotifier {
 
   RestartBaseState get state => _state;
 
-  void restart(Key appSessionKey) {
+  void restart([Key? appSessionKey]) {
     onSetup(this, reset: true);
-    _state = RestartState(appSessionKey);
+    _state = RestartState(appSessionKey ?? Key(DateTime.now().millisecondsSinceEpoch.toString()));
     notifyListeners();
   }
 }

@@ -19,7 +19,7 @@ class UserRepository {
   final RestartNotifier restartCubit;
 
   void logout() {
-    restartCubit.restart(Key(Random().nextInt(1000).toString()));
+    restartCubit.restart();
   }
 }
 

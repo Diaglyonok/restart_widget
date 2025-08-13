@@ -25,56 +25,7 @@ dependencies:
 
 ### Usage
 
-#### Basic Example
-
-```dart
-import 'package:flutter/material.dart';
-import 'package:restart_widget/restart_widget.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return RestartWidget(
-      onSetup: (notifier, {bool reset = false}) async {
-        // Initialize your app state here
-        if (reset) {
-          // Handle reset logic (clear caches, reset preferences, etc.)
-          print('App is restarting...');
-        }
-      },
-      builder: (context) => MaterialApp(
-        title: 'My App',
-        home: MyHomePage(),
-      ),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('My App')),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            // Get the notifier and restart the app
-            final notifier = context.findAncestorStateOfType<_RestartWidgetState>()!.notifier;
-            notifier.restart(Key('new_session_${DateTime.now().millisecondsSinceEpoch}'));
-          },
-          child: Text('Restart App'),
-        ),
-      ),
-    );
-  }
-}
-```
-
-#### Advanced Example with Dependency Injection (GetIt)
+#### Example with Dependency Injection (GetIt)
 
 ```dart
 import 'dart:math';
@@ -172,73 +123,6 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 ```
 
-#### Simple Example with Static Manager
-
-```dart
-import 'package:flutter/material.dart';
-import 'package:restart_widget/restart_widget.dart';
-
-class AppManager {
-  static RestartNotifier? _notifier;
-  
-  static void initialize(RestartNotifier notifier) {
-    _notifier = notifier;
-  }
-  
-  static void restartApp() {
-    if (_notifier != null) {
-      _notifier!.restart(Key('restart_${DateTime.now().millisecondsSinceEpoch}'));
-    }
-  }
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return RestartWidget(
-      onSetup: (notifier, {bool reset = false}) async {
-        AppManager.initialize(notifier);
-        
-        if (reset) {
-          // Clear all app state
-          await _clearUserData();
-          await _resetPreferences();
-          await _clearCaches();
-        }
-        
-        // Initialize app state
-        await _loadUserPreferences();
-        await _initializeServices();
-      },
-      builder: (context) => MaterialApp(
-        title: 'Advanced App',
-        home: HomePage(),
-      ),
-    );
-  }
-  
-  Future<void> _clearUserData() async {
-    // Clear user data logic
-  }
-  
-  Future<void> _resetPreferences() async {
-    // Reset preferences logic
-  }
-  
-  Future<void> _clearCaches() async {
-    // Clear caches logic
-  }
-  
-  Future<void> _loadUserPreferences() async {
-    // Load preferences logic
-  }
-  
-  Future<void> _initializeServices() async {
-    // Initialize services logic
-  }
-}
-```
-
 ## API Reference
 
 ### RestartWidget
@@ -279,15 +163,7 @@ A ChangeNotifier that manages the restart state.
 ```dart
 void logout() async {
   await _clearUserSession();
-  AppManager.restartApp(); // Restarts with clean state
-}
-```
-
-### Theme Change
-```dart
-void changeTheme(ThemeMode mode) async {
-  await _saveThemePreference(mode);
-  AppManager.restartApp(); // Restarts with new theme
+  notifier.restart(); // Restarts with clean state
 }
 ```
 
@@ -295,7 +171,7 @@ void changeTheme(ThemeMode mode) async {
 ```dart
 void changeLanguage(Locale locale) async {
   await _saveLanguagePreference(locale);
-  AppManager.restartApp(); // Restarts with new language
+  notifier.restart(); // Restarts with new language
 }
 ```
 
@@ -303,7 +179,7 @@ void changeLanguage(Locale locale) async {
 ```dart
 void resetApp() async {
   await _clearAllData();
-  AppManager.restartApp(); // Complete app reset
+  notifier.restartApp(); // Complete app reset
 }
 ```
 
@@ -336,24 +212,7 @@ notifier.restart(Key('session_${DateTime.now().millisecondsSinceEpoch}'));
 notifier.restart(Key(Random().nextInt(10000).toString()));
 
 // Using UUID
-notifier.restart(Key(Uuid().v4()));
-```
-
-### State Cleanup
-
-Always clean up resources in the `onSetup` callback when `reset: true`:
-
-```dart
-onSetup: (notifier, {bool reset = false}) async {
-  if (reset) {
-    // Clear caches
-    await cacheManager.clear();
-    // Reset preferences
-    await prefs.clear();
-    // Dispose services
-    await serviceLocator.reset();
-  }
-}
+notifier.restart();
 ```
 
 ## How It Works
