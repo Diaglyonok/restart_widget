@@ -14,3 +14,7 @@
 ## 1.0.1
 
 * Moved from Cubit to Notifier to remove unneeded dependency
+
+## 1.0.2
+
+* Updated restart function with optinal param
