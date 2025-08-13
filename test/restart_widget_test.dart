@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:restart_widget/restart_widget.dart';
-import 'package:restart_widget/restart_cubit.dart';
+import 'package:restart_widget/restart_notifier.dart';
 
 void main() {
   group('RestartCubit Tests', () {
@@ -79,14 +79,16 @@ void main() {
       expect(capturedNotifier, isA<RestartNotifier>());
     });
 
-    testWidgets('should render builder widget with initial state', (tester) async {
+    testWidgets('should render builder widget with initial state',
+        (tester) async {
       await tester.pumpWidget(createTestWidget());
 
       expect(find.text('Test Widget'), findsOneWidget);
       expect(find.byType(Container), findsOneWidget);
     });
 
-    testWidgets('should update widget when cubit state changes', (tester) async {
+    testWidgets('should update widget when cubit state changes',
+        (tester) async {
       await tester.pumpWidget(createTestWidget());
 
       final initialContainer = tester.widget<Container>(find.byType(Container));

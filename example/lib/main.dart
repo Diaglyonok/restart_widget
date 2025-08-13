@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:restart_widget/restart_cubit.dart';
+import 'package:restart_widget/restart_notifier.dart';
 import 'package:restart_widget/restart_widget.dart';
 
 void main() {
@@ -29,16 +29,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RestartWidget(
-      onSetup: (cubit, {bool reset = false}) async {
+      onSetup: (notifier, {bool reset = false}) async {
         if (reset) {
           await GetIt.I.reset();
         }
 
-        diSetup(cubit);
+        diSetup(notifier);
       },
       builder: (context) => MaterialApp(
         title: 'Flutter Demo',
-        theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)),
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        ),
         home: const MyHomePage(title: 'Flutter Demo Home Page'),
       ),
     );
@@ -76,7 +78,10 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text('You have pushed the button this many times:'),
-            Text('$_counter', style: Theme.of(context).textTheme.headlineMedium),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
 
             SizedBox(height: 10),
 
